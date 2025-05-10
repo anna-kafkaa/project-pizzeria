@@ -54,11 +54,15 @@ const select = {
 
   
   class Product {
-    constructor() {
-      const thisProduct = this;
-      console.log('new Product:', thisProduct);
-    }
+  constructor(id, data) {
+    const thisProduct = this;
+
+    thisProduct.id = id;
+    thisProduct.data = data;
+
+    console.log('new Product:', thisProduct);
   }
+}
 
   const app = {
     initMenu: function(){
