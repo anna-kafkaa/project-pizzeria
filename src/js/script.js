@@ -53,31 +53,58 @@ const select = {
   };
 
   
+   // ✅ Klasa Product
   class Product {
-  constructor(id, data) {
-    const thisProduct = this;
+    constructor(id, data) {
+      const thisProduct = this;
 
-    thisProduct.id = id;
-    thisProduct.data = data;
+      thisProduct.id = id;
+      thisProduct.data = data;
 
-    console.log('new Product:', thisProduct);
+      // 1. Wygeneruj HTML produktu
+      const generatedHTML = templates.menuProduct(data);
+
+      // 2. Zamień HTML na element DOM
+      thisProduct.element = utils.createDOMFromHTML(generatedHTML);
+
+      // 3. Dodaj produkt do kontenera
+      const menuContainer = document.querySelector(select.containerOf.menu);
+      menuContainer.appendChild(thisProduct.element);
+
+      // 4. Test w konsoli
+      console.log('new Product:', thisProduct);
+    }
   }
-}
 
+  // ✅ Obiekt app
   const app = {
+    initData: function(){
+      const thisApp = this;
+
+      thisApp.data = dataSource;
+    },
+
     initMenu: function(){
-      const testProduct = new Product();
+      const thisApp = this;
+
+      console.log('thisApp.data:', thisApp.data);
+
+      for (let productId in thisApp.data.products){
+        new Product(productId, thisApp.data.products[productId]);
+      }
     },
 
     init: function(){
       const thisApp = this;
+
       console.log('*** App starting ***');
       console.log('thisApp:', thisApp);
       console.log('classNames:', classNames);
       console.log('settings:', settings);
       console.log('templates:', templates);
-      
-      thisApp.initMenu();
+
+      thisApp.initData();   // najpierw dane
+      thisApp.initMenu();   // potem tworzymy produkty
     },
   };
 
