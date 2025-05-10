@@ -52,14 +52,63 @@ const select = {
     menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML),
   };
 
+  
+   // ✅ Klasa Product
+  class Product {
+    constructor(id, data) {
+      const thisProduct = this;
+
+      thisProduct.id = id;
+      thisProduct.data = data;
+
+      thisProduct.renderInMenu();
+
+      console.log('new Product:', thisProduct);
+  }
+
+  renderInMenu() {
+    const thisProduct = this;
+      // 1. Wygeneruj HTML produktu
+      const generatedHTML = templates.menuProduct(thisProduct.data);
+
+      // 2. Zamień HTML na element DOM
+      thisProduct.element = utils.createDOMFromHTML(generatedHTML);
+
+      // 3. Dodaj produkt do kontenera
+      const menuContainer = document.querySelector(select.containerOf.menu);
+      menuContainer.appendChild(thisProduct.element);
+    }
+  }
+
+  // ✅ Obiekt app
   const app = {
+    initData: function(){
+      const thisApp = this;
+
+      thisApp.data = dataSource;
+    },
+
+    initMenu: function(){
+      const thisApp = this;
+
+      console.log('thisApp.data:', thisApp.data);
+
+      for (let productData in thisApp.data.products){
+        new Product(productData, thisApp.data.products[productData]);
+      }
+    },
+
     init: function(){
       const thisApp = this;
+
       console.log('*** App starting ***');
       console.log('thisApp:', thisApp);
       console.log('classNames:', classNames);
       console.log('settings:', settings);
       console.log('templates:', templates);
+
+      thisApp.initData();   // najpierw dane
+      thisApp.initMenu();   // potem tworzymy produkty
     },
   };
 

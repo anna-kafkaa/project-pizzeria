@@ -61,8 +61,15 @@ const select = {
       thisProduct.id = id;
       thisProduct.data = data;
 
+      thisProduct.renderInMenu();
+
+      console.log('new Product:', thisProduct);
+  }
+
+  renderInMenu() {
+    const thisProduct = this;
       // 1. Wygeneruj HTML produktu
-      const generatedHTML = templates.menuProduct(data);
+      const generatedHTML = templates.menuProduct(thisProduct.data);
 
       // 2. Zamień HTML na element DOM
       thisProduct.element = utils.createDOMFromHTML(generatedHTML);
@@ -70,9 +77,6 @@ const select = {
       // 3. Dodaj produkt do kontenera
       const menuContainer = document.querySelector(select.containerOf.menu);
       menuContainer.appendChild(thisProduct.element);
-
-      // 4. Test w konsoli
-      console.log('new Product:', thisProduct);
     }
   }
 
@@ -89,8 +93,8 @@ const select = {
 
       console.log('thisApp.data:', thisApp.data);
 
-      for (let productId in thisApp.data.products){
-        new Product(productId, thisApp.data.products[productId]);
+      for (let productData in thisApp.data.products){
+        new Product(productData, thisApp.data.products[productData]);
       }
     },
 
