@@ -62,6 +62,7 @@ const select = {
       thisProduct.data = data;
 
       thisProduct.renderInMenu();
+      thisProduct.initAccordion();
 
       console.log('new Product:', thisProduct);
   }
@@ -78,7 +79,13 @@ const select = {
       const menuContainer = document.querySelector(select.containerOf.menu);
       menuContainer.appendChild(thisProduct.element);
     }
-  }
+
+  initAccordion() {
+    const thisProduct = this;
+
+    
+  }  
+}
 
   // ✅ Obiekt app
   const app = {
