@@ -97,6 +97,7 @@ const select = {
       thisProduct.element.classList.toggle(classNames.menuProduct.wrapperActive);
     });
   }
+}
 
   // ✅ Obiekt app
   const app = {
