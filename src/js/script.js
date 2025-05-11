@@ -132,10 +132,34 @@ const select = {
   processOrder() {
     const thisProduct = this;
 
+    // covert form to object structure e.g. { sauce: ['tomato'], toppings: ['olives', 'redPeppers']}
     const formData = utils.serializeFormToObject(thisProduct.form);
     console.log('formData', formData);
 
-    console.log('processOrder triggered for', thisProduct.id);
+    // set price to default price
+    let price = thisProduct.data.price;
+
+    // for every category (param)...
+    for (let paramId in thisProduct.data.params) {
+      const param = thisProduct.data.params[paramId];
+
+    // for every option in this category
+    for (let optionId in param.options) {
+      const option = param.options[optionId];
+
+      const optionSelected = formData[paramId] && formData[paramId].includes(optionId);
+
+      if (optionSelected && !option.default) {
+        price += option.price;
+      } else if (!optionSelected && option.default) {
+        price -= option.price;
+      }
+    }
+  }
+
+  // update calculated price in the HTML
+  thisProduct.priceElem.innerHTML = price;
+    }
   }
 }
 
