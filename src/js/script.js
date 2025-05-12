@@ -154,8 +154,19 @@ const select = {
         price += option.price;
       } else if (!optionSelected && option.default) {
         price -= option.price;
-      
     }
+      
+    const imageSelector = `.${paramId}-${optionId}`;
+    const image = thisProduct.imageWrapper.querySelector(imageSelector);
+
+    if (image) {
+      if (optionSelected) {
+        image.classList.add(classNames.menuProduct.imageVisible);
+      } else {
+        image.classList.remove(classNames.menuProduct.imageVisible);
+      }
+    }
+
   }
 
   // update calculated price in the HTML
