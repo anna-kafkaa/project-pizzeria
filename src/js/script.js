@@ -166,7 +166,6 @@ const select = {
         image.classList.remove(classNames.menuProduct.imageVisible);
       }
     }
-
   }
 
   // update calculated price in the HTML

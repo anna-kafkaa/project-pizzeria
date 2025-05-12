@@ -91,6 +91,7 @@ const select = {
     thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
     thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
     thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
+    thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
   }
 
   initAccordion() {
@@ -153,8 +154,28 @@ const select = {
         price += option.price;
       } else if (!optionSelected && option.default) {
         price -= option.price;
-      
     }
+      
+    const imageSelector = `.${paramId}-${optionId}`;
+    const image = thisProduct.imageWrapper.querySelector(imageSelector);
+
+    if (image) {
+      if (optionSelected) {
+        image.classList.add(classNames.menuProduct.imageVisible);
+      } else {
+        image.classList.remove(classNames.menuProduct.imageVisible);
+      }
+    }
+
+    const optionImage = thisProduct.imageWrapper.querySelector(`.${paramId}-${optionId}`);
+    if (optionImage) {
+      if (optionSelected) {
+        optionImage.classList.add(classNames.menuProduct.imageVisible); // pokazujemy obrazek
+      } else {
+      optionImage.classList.remove(classNames.menuProduct.imageVisible); // chowamy obrazek
+      }
+    }
+
   }
 
   // update calculated price in the HTML
