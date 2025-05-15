@@ -214,6 +214,7 @@ const select = {
       newValue <= settings.amountWidget.defaultMax        // <-- TO DODANO
     ) {
     thisWidget.value = newValue;
+    }
   }
 
   initActions() {
