@@ -207,11 +207,13 @@ const select = {
 
     const newValue = parseInt(value);
 
-    if (thisWidget.value !== newValue && !isNaN(newValue)) {
-      thisWidget.value = newValue;
-    }
-
-    thisWidget.input.value = thisWidget.value;
+    if (
+      thisWidget.value !== newValue &&
+      !isNaN(newValue) &&
+      newValue >= settings.amountWidget.defaultMin &&     // <-- TO DODANO
+      newValue <= settings.amountWidget.defaultMax        // <-- TO DODANO
+    ) {
+    thisWidget.value = newValue;
   }
 
   initActions() {
