@@ -166,16 +166,6 @@ const select = {
         image.classList.remove(classNames.menuProduct.imageVisible);
       }
     }
-
-    const optionImage = thisProduct.imageWrapper.querySelector(`.${paramId}-${optionId}`);
-    if (optionImage) {
-      if (optionSelected) {
-        optionImage.classList.add(classNames.menuProduct.imageVisible); // pokazujemy obrazek
-      } else {
-      optionImage.classList.remove(classNames.menuProduct.imageVisible); // chowamy obrazek
-      }
-    }
-
   }
 
   // update calculated price in the HTML

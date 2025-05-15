@@ -174,6 +174,15 @@ const select = {
   }
 }
 
+  class AmountWidget {
+  constructor(element) {
+    const thisWidget = this;
+
+    console.log('AmountWidget:', thisWidget);
+    console.log('constructor arguments:', element);
+  }
+}
+
   // ✅ Obiekt app
   const app = {
     initData: function(){
