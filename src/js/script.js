@@ -131,6 +131,12 @@ const select = {
   });
 }
 
+  initAmountWidget(){
+  const thisProduct = this;
+
+  thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
+}
+
   processOrder() {
     const thisProduct = this;
 
