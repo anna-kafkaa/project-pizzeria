@@ -210,11 +210,12 @@ const select = {
     if (
       thisWidget.value !== newValue &&
       !isNaN(newValue) &&
-      newValue >= settings.amountWidget.defaultMin &&     // <-- TO DODANO
-      newValue <= settings.amountWidget.defaultMax        // <-- TO DODANO
+      newValue >= settings.amountWidget.defaultMin &&    
+      newValue <= settings.amountWidget.defaultMax        
     ) {
     thisWidget.value = newValue;
     }
+    thisWidget.input.value = thisWidget.value;
   }
 
   initActions() {
