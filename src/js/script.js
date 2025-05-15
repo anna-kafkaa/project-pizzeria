@@ -214,6 +214,7 @@ const select = {
       newValue <= settings.amountWidget.defaultMax        
     ) {
     thisWidget.value = newValue;
+    thisWidget.announce();
     }
     thisWidget.input.value = thisWidget.value;
   }
@@ -234,6 +235,13 @@ const select = {
       event.preventDefault();
       thisWidget.setValue(thisWidget.value + 1);
     });
+  }
+
+  announce(){
+  const thisWidget = this;
+
+  const event = new Event('updated');
+  thisWidget.element.dispatchEvent(event);
   }
 }
 
