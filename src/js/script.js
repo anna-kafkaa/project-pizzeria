@@ -192,7 +192,7 @@
       } else {
         thisWidget.setValue(settings.amountWidget.defaultValue);
       }
-      
+
       thisWidget.initActions();
     }
 
