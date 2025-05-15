@@ -66,7 +66,7 @@ const select = {
       thisProduct.initAccordion();
       thisProduct.initOrderForm();   
       thisProduct.processOrder();   
-
+      thisProduct.initAmountWidget();
       console.log('new Product:', thisProduct);
   }
 
