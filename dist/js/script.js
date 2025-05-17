@@ -365,7 +365,8 @@ prepareCartProductParams() {
     const generatedDOM = utils.createDOMFromHTML(generatedHTML);
     thisCart.dom.productList.appendChild(generatedDOM);
 
-    thisCart.products.push(menuProduct);
+    const cartProduct = new CartProduct(menuProduct, generatedDOM);
+    thisCart.products.push(cartProduct);
     console.log('thisCart.products', thisCart.products);
   }
 }
