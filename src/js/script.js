@@ -365,7 +365,8 @@ prepareCartProductParams() {
     const generatedDOM = utils.createDOMFromHTML(generatedHTML);
     thisCart.dom.productList.appendChild(generatedDOM);
 
-    thisCart.products.push(menuProduct);
+    const cartProduct = new CartProduct(menuProduct, generatedDOM);
+    thisCart.products.push(cartProduct);
     console.log('thisCart.products', thisCart.products);
   }
 }
@@ -374,7 +375,6 @@ prepareCartProductParams() {
   constructor(menuProduct, element) {
     const thisCartProduct = this;
 
-    // Przypisanie danych z menuProduct
     thisCartProduct.id = menuProduct.id;
     thisCartProduct.name = menuProduct.name;
     thisCartProduct.amount = menuProduct.amount;
@@ -382,7 +382,6 @@ prepareCartProductParams() {
     thisCartProduct.price = menuProduct.price;
     thisCartProduct.params = menuProduct.params;
 
-    // Inicjalizacja DOM
     thisCartProduct.getElements(element);
 
     console.log('new CartProduct', thisCartProduct);
