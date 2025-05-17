@@ -282,6 +282,26 @@ const templates = {
     }
   }
 
+  class Cart {
+  constructor(element) {
+    const thisCart = this;
+
+    thisCart.products = [];
+
+    thisCart.getElements(element);
+
+    console.log('new Cart', thisCart);
+  }
+
+  getElements(element) {
+    const thisCart = this;
+
+    thisCart.dom = {};
+
+    thisCart.dom.wrapper = element;
+  }
+}
+
   const app = {
     initData: function () {
       const thisApp = this;
@@ -301,6 +321,7 @@ const templates = {
 
       thisApp.initData();
       thisApp.initMenu();
+      thisApp.initCart();
     },
   };
 
