@@ -358,6 +358,30 @@ prepareCartProductParams() {
     });
   }
 
+  update() {
+    const thisCart = this;
+
+    const deliveryFee = settings.cart.defaultDeliveryFee;
+    let totalNumber = 0;
+    let subtotalPrice = 0;
+
+    for (let product of thisCart.products) {
+      totalNumber += product.amount;
+      subtotalPrice += product.price;
+    }
+
+    if (totalNumber === 0) {
+      thisCart.totalPrice = 0;
+    } else {
+      thisCart.totalPrice = subtotalPrice + deliveryFee;
+    }
+
+    console.log('CENA DOSTAWY:', deliveryFee);
+    console.log('LICZBA SZTUK:', totalNumber);
+    console.log('SUMA BEZ DOSTAWY:', subtotalPrice);
+    console.log('CENA KOŃCOWA:', thisCart.totalPrice);
+  }
+
    add(menuProduct) {
     const thisCart = this;
 
@@ -368,6 +392,8 @@ prepareCartProductParams() {
     const cartProduct = new CartProduct(menuProduct, generatedDOM);
     thisCart.products.push(cartProduct);
     console.log('thisCart.products', thisCart.products);
+
+    thisCart.update();
   }
 }
 
