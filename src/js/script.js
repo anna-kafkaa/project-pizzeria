@@ -348,6 +348,11 @@ prepareCartProductParams() {
     thisCart.dom.wrapper = element;
     thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
     thisCart.dom.productList = thisCart.dom.wrapper.querySelector(select.cart.productList); 
+
+    thisCart.dom.deliveryFee = thisCart.dom.wrapper.querySelector(select.cart.deliveryFee);
+    thisCart.dom.subtotalPrice = thisCart.dom.wrapper.querySelector(select.cart.subtotalPrice);
+    thisCart.dom.totalPrice = thisCart.dom.wrapper.querySelectorAll(select.cart.totalPrice);
+    thisCart.dom.totalNumber = thisCart.dom.wrapper.querySelector(select.cart.totalNumber);
   }
 
   initActions() {
@@ -376,10 +381,13 @@ prepareCartProductParams() {
       thisCart.totalPrice = subtotalPrice + deliveryFee;
     }
 
-    console.log('CENA DOSTAWY:', deliveryFee);
-    console.log('LICZBA SZTUK:', totalNumber);
-    console.log('SUMA BEZ DOSTAWY:', subtotalPrice);
-    console.log('CENA KOŃCOWA:', thisCart.totalPrice);
+    thisCart.dom.totalNumber.innerHTML = totalNumber;
+    thisCart.dom.subtotalPrice.innerHTML = subtotalPrice;
+    thisCart.dom.deliveryFee.innerHTML = totalNumber === 0 ? 0 : deliveryFee;
+
+    for (let totalPriceElem of thisCart.dom.totalPrice) {
+      totalPriceElem.innerHTML = thisCart.totalPrice;
+    }
   }
 
    add(menuProduct) {
