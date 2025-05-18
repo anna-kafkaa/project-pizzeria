@@ -368,6 +368,10 @@ prepareCartProductParams() {
     thisCart.dom.productList.addEventListener('updated', function () {
     thisCart.update();
     });
+
+    thisCart.dom.productList.addEventListener('remove', function (event) {
+    thisCart.remove(event.detail.cartProduct);
+  });
   }
 
   update() {
@@ -407,6 +411,19 @@ prepareCartProductParams() {
     const cartProduct = new CartProduct(menuProduct, generatedDOM);
     thisCart.products.push(cartProduct);
     console.log('thisCart.products', thisCart.products);
+
+    thisCart.update();
+  }
+
+  remove(cartProduct) {
+    const thisCart = this;
+
+    cartProduct.dom.wrapper.remove();
+
+    const index = thisCart.products.indexOf(cartProduct);
+    if (index !== -1) {
+      thisCart.products.splice(index, 1);
+    }
 
     thisCart.update();
   }
