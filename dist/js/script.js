@@ -566,8 +566,6 @@ prepareCartProductParams() {
   }
 }
 
-}
-
   const app = {
     initData: function () {
   const thisApp = this;
