@@ -1,6 +1,8 @@
 /* Variables */
 /* Mixins */
 /* Helpers */
+@import 'partials/booking';
+
 .no-spacing {
   margin: 0;
   padding: 0;

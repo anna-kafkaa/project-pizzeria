@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
   <title>Pizzeria</title>
   <link href="https://fonts.googleapis.com/css?family=Lato:400,300i,700%7COswald:300,500,700&amp;subset=latin-ext" rel="stylesheet">
   <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
@@ -18,6 +18,13 @@
           <h1 class="logo__title"><span>Mamma</span>Mia!</h1>
           <h2 class="logo__subtitle">the best homemade Italian food</h2>
         </div>
+
+        <!-- Nawigacja (poprawiona lokalizacja) -->
+        <div class="main-nav">
+          <a href="#order">Order</a>
+          <a href="#booking">Booking</a>
+        </div>
+
         <div id="cart" class="cart">
           <div class="cart__summary">
             <span class="cart__total-number">0</span>
@@ -54,13 +61,6 @@
     </div>
   </header>
 
-  <!-- Nawigacja między podstronami -->
-  <div class="main-nav">
-    <a href="#order">Order</a>
-    <a href="#booking">Booking</a>
-  </div>
-
-  <!-- Podstrony -->
   <div id="pages">
     <section id="order">
       <div id="product-list" class="product-list container"></div>
@@ -70,7 +70,7 @@
     </section>
   </div>
 
-  <!-- Szablony -->
+  <!-- Szablony Handlebars -->
   <script id="template-cart-product" type="text/x-handlebars-template">
     <li>
       <div class="widget-amount">
@@ -245,8 +245,9 @@
     </div>
   </script>
 
-  <!-- Handlebars i JS -->
+  <!-- Handlebars i główny JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.0/handlebars.min.js"></script>
   <script src="js/app.js" type="module"></script>
+
 </body>
 </html>
