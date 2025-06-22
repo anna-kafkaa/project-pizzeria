@@ -87,46 +87,43 @@ class Booking {
     }
 
     const startHour = utils.hourToNumber(hour);
-    const tableId = table.toString();
 
     for (let hourBlock = startHour; hourBlock < startHour + duration; hourBlock += 0.5) {
       if (!thisBooking.booked[date][hourBlock]) {
         thisBooking.booked[date][hourBlock] = [];
       }
 
-      thisBooking.booked[date][hourBlock].push(tableId);
+      thisBooking.booked[date][hourBlock].push(table);
     }
   }
 
-  updateDOM() {
-    const thisBooking = this;
+  
+ updateDOM() {
+  const thisBooking = this;
 
-    thisBooking.date = thisBooking.datePicker.value;
-    thisBooking.hour = utils.hourToNumber(thisBooking.hourPicker.value);
+  thisBooking.date = thisBooking.datePicker.value;
+  thisBooking.hour = utils.hourToNumber(thisBooking.hourPicker.value);
 
-    let allAvailable = false;
+  const allAvailable =
+    typeof thisBooking.booked[thisBooking.date] === 'undefined' ||
+    typeof thisBooking.booked[thisBooking.date][thisBooking.hour] === 'undefined';
+
+  for (let table of thisBooking.dom.tables) {
+   const tableId = table.getAttribute(settings.booking.tableIdAttribute);
+    const parsedTableId = parseInt(tableId);
+
 
     if (
-      !thisBooking.booked[thisBooking.date] ||
-      !thisBooking.booked[thisBooking.date][thisBooking.hour]
+      !allAvailable &&
+      thisBooking.booked[thisBooking.date][thisBooking.hour].includes(parsedTableId)
     ) {
-      allAvailable = true;
-    }
-
-    for (let table of thisBooking.dom.tables) {
-      let tableId = table.getAttribute(settings.booking.tableIdAttribute);
-      tableId = tableId.toString();
-
-      if (
-        !allAvailable &&
-        thisBooking.booked[thisBooking.date][thisBooking.hour].includes(tableId)
-      ) {
-        table.classList.add(classNames.booking.tableBooked);
-      } else {
-        table.classList.remove(classNames.booking.tableBooked);
-      }
+      table.classList.add(classNames.booking.tableBooked);
+    } else {
+      table.classList.remove(classNames.booking.tableBooked);
     }
   }
+}
+
 
   render(element) {
     const thisBooking = this;
