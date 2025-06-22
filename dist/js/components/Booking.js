@@ -3,8 +3,8 @@
 import { select, classNames, settings, templates } from '../settings.js';
 import utils from '../utils.js';
 import AmountWidget from './AmountWidget.js';
-import DatePicker from './Classes_v2/DatePicker.js'; // Upewnij się, że ścieżka jest poprawna
-import HourPicker from './Classes_v2/HourPicker.js'; // Upewnij się, że ścieżka jest poprawna
+import DatePicker from './Classes_v2/DatePicker.js';
+import HourPicker from './Classes_v2/HourPicker.js';
 
 class Booking {
   constructor(element) {
@@ -15,32 +15,31 @@ class Booking {
     thisBooking.render(element);
     thisBooking.initWidgets();
     thisBooking.getData();
-    thisBooking.initTables(); // Inicjalizacja obsługi kliknięć stolików
-    thisBooking.initActions(); // Inicjalizacja obsługi formularza
+    thisBooking.initTables();
+    thisBooking.initActions();
+
+    // Możesz tutaj dla pewności sprawdzić po inicjalizacji
+    console.log('Constructor: thisBooking.dom.starters po render i init:', thisBooking.dom.starters);
   }
 
   getData() {
     const thisBooking = this;
 
-    // Pobieranie dat z DatePicker
     const startDateParam = settings.db.dateStartParamKey + '=' + utils.dateToStr(thisBooking.datePicker.minDate);
     const endDateParam = settings.db.dateEndParamKey + '=' + utils.dateToStr(thisBooking.datePicker.maxDate);
 
-    // Parametry dla zapytań do API
     const params = {
       booking: [startDateParam, endDateParam],
       eventsCurrent: [settings.db.notRepeatParam, startDateParam, endDateParam],
       eventsRepeat: [settings.db.repeatParam, endDateParam],
     };
 
-    // Konstruowanie URL-i dla zapytań
     const urls = {
       booking: settings.db.url + '/' + settings.db.bookings + '?' + params.booking.join('&'),
       eventsCurrent: settings.db.url + '/' + settings.db.events + '?' + params.eventsCurrent.join('&'),
       eventsRepeat: settings.db.url + '/' + settings.db.events + '?' + params.eventsRepeat.join('&'),
     };
 
-    // Wykonanie wszystkich zapytań równocześnie
     Promise.all([
       fetch(urls.booking),
       fetch(urls.eventsCurrent),
@@ -51,25 +50,25 @@ class Booking {
       })
       .then(([bookings, eventsCurrent, eventsRepeat]) => {
         thisBooking.parseData(bookings, eventsCurrent, eventsRepeat);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
       });
   }
 
   parseData(bookings, eventsCurrent, eventsRepeat) {
     const thisBooking = this;
 
-    thisBooking.booked = {}; // Obiekt do przechowywania zajętych stolików
+    thisBooking.booked = {};
 
-    // Przetwarzanie rezerwacji
     for (let item of bookings) {
       thisBooking.makeBooked(item.date, item.hour, item.duration, item.table);
     }
 
-    // Przetwarzanie bieżących wydarzeń
     for (let item of eventsCurrent) {
       thisBooking.makeBooked(item.date, item.hour, item.duration, item.table);
     }
 
-    // Przetwarzanie powtarzalnych wydarzeń
     const minDate = thisBooking.datePicker.minDate;
     const maxDate = thisBooking.datePicker.maxDate;
 
@@ -81,11 +80,9 @@ class Booking {
       }
     }
 
-    // Aktualizacja DOM po przetworzeniu danych
     thisBooking.updateDOM();
   }
 
-  // Metoda do oznaczania stolików jako zajęte
   makeBooked(date, hour, duration, table) {
     const thisBooking = this;
 
@@ -100,39 +97,46 @@ class Booking {
     }
   }
 
-  // Metoda do aktualizacji wizualnego stanu stolików w DOM
   updateDOM() {
     const thisBooking = this;
 
     thisBooking.date = thisBooking.datePicker.value;
     thisBooking.hour = utils.hourToNumber(thisBooking.hourPicker.value);
 
-    // Sprawdzamy, czy w ogóle są jakieś rezerwacje dla danej daty/godziny
     const allAvailable = typeof thisBooking.booked[thisBooking.date] === 'undefined'
       || typeof thisBooking.booked[thisBooking.date][thisBooking.hour] === 'undefined';
 
     for (let table of thisBooking.dom.tables) {
       const tableId = parseInt(table.getAttribute(settings.booking.tableIdAttribute));
 
-      // Jeśli stolik jest zajęty, dodaj klasę 'booked'
       if (
         !allAvailable &&
         thisBooking.booked[thisBooking.date][thisBooking.hour].includes(tableId)
       ) {
         table.classList.add(classNames.booking.tableBooked);
       } else {
-        // Jeśli stolik jest dostępny, upewnij się, że nie ma klasy 'booked'
         table.classList.remove(classNames.booking.tableBooked);
       }
 
-      // Ważne: Resetowanie klasy 'selected' przy każdej zmianie daty/godziny
-      // Jeśli stolik był wcześniej zaznaczony, ale zmieniła się data/godzina
-      // i jest teraz zajęty lub po prostu zmieniamy parametry,
-      // to powinien stracić status 'selected'.
-      table.classList.remove(classNames.booking.tableSelected);
+      // Resetowanie klasy 'selected' jeśli stolik staje się zajęty lub zmieniamy datę/godzinę
+      if (table.classList.contains(classNames.booking.tableSelected)) {
+        if (table.classList.contains(classNames.booking.tableBooked) || thisBooking.selectedTable !== tableId) {
+          table.classList.remove(classNames.booking.tableSelected);
+          if (thisBooking.selectedTable === tableId) { // Tylko jeśli to był nasz wybrany stolik
+             thisBooking.selectedTable = null;
+          }
+        }
+      }
     }
-    // Również resetujemy thisBooking.selectedTable na null, aby odzwierciedlić brak wybranego stolika
-    thisBooking.selectedTable = null;
+
+    // Dodatkowe sprawdzenie, czy thisBooking.selectedTable jest nadal dostępne po updateDOM
+    if (thisBooking.selectedTable !== null) {
+      const selectedDomTable = thisBooking.dom.wrapper.querySelector(select.booking.tablesById + thisBooking.selectedTable);
+      if (selectedDomTable && selectedDomTable.classList.contains(classNames.booking.tableBooked)) {
+        selectedDomTable.classList.remove(classNames.booking.tableSelected);
+        thisBooking.selectedTable = null;
+      }
+    }
   }
 
   render(element) {
@@ -143,16 +147,23 @@ class Booking {
     thisBooking.dom.wrapper = element;
     thisBooking.dom.wrapper.innerHTML = generatedHTML;
 
-    // Referencje do elementów DOM
+    // Po wstawieniu HTML do DOM, możemy bezpiecznie pobrać wszystkie elementy
+    // Upewnij się, że selektory są poprawne w settings.js
     thisBooking.dom.peopleAmount = thisBooking.dom.wrapper.querySelector(select.booking.peopleAmount);
     thisBooking.dom.hoursAmount = thisBooking.dom.wrapper.querySelector(select.booking.hoursAmount);
     thisBooking.dom.datePicker = thisBooking.dom.wrapper.querySelector(select.widgets.datePicker.wrapper);
     thisBooking.dom.hourPicker = thisBooking.dom.wrapper.querySelector(select.widgets.hourPicker.wrapper);
-    thisBooking.dom.tables = thisBooking.dom.wrapper.querySelectorAll(select.booking.tables); // Lista wszystkich elementów stolików
+    thisBooking.dom.tables = thisBooking.dom.wrapper.querySelectorAll(select.booking.tables);
     thisBooking.dom.phone = thisBooking.dom.wrapper.querySelector(select.booking.phone);
     thisBooking.dom.address = thisBooking.dom.wrapper.querySelector(select.booking.address);
-    thisBooking.dom.starters = thisBooking.dom.wrapper.querySelectorAll(select.booking.starters);
+    // TUTAJ ZMIANA: Usunąłem thisBooking.dom.starters z render()
+
     thisBooking.dom.form = thisBooking.dom.wrapper.querySelector(select.booking.form);
+
+    console.log('--- Render diagnostyka DOM elements ---');
+    console.log('Sprawdź, czy formularz i inne elementy są dostępne w render()');
+    console.log('thisBooking.dom.form:', thisBooking.dom.form); // Powinno być elementem
+    console.log('--- Koniec render diagnostyki ---');
   }
 
   initWidgets() {
@@ -163,12 +174,9 @@ class Booking {
     thisBooking.datePicker = new DatePicker(thisBooking.dom.datePicker);
     thisBooking.hourPicker = new HourPicker(thisBooking.dom.hourPicker);
 
-    // Nasłuchiwanie na zdarzenie 'updated' z widżetów
-    // Kiedy data, godzina, liczba osób lub godzin się zmienia, aktualizujemy DOM
     thisBooking.dom.wrapper.addEventListener('updated', () => thisBooking.updateDOM());
   }
 
-  // Metoda do obsługi kliknięć na stoliki
   initTables() {
     const thisBooking = this;
 
@@ -176,36 +184,27 @@ class Booking {
       table.addEventListener('click', function () {
         const tableId = parseInt(table.getAttribute(settings.booking.tableIdAttribute));
 
-        // 1. Sprawdź, czy stolik jest ZAJĘTY
         if (table.classList.contains(classNames.booking.tableBooked)) {
-          alert('Stolik niedostępny');
-          return; // Zakończ funkcję, jeśli stolik jest zajęty
+          alert('Ten stolik jest już zajęty. Wybierz inny.');
+          return;
         }
 
-        // 2. Jeśli stolik jest WŁAŚNIE ZAZNACZONY (ma już klasę 'selected')
         if (table.classList.contains(classNames.booking.tableSelected)) {
-          // Odznacz go (usuń klasę 'selected')
           table.classList.remove(classNames.booking.tableSelected);
-          thisBooking.selectedTable = null; // Wyzeruj wybrany stolik w instancji Booking
-          console.log(`Stolik ${tableId} odznaczony.`); // Debugging
+          thisBooking.selectedTable = null;
+          console.log(`Stolik ${tableId} odznaczony.`);
         } else {
-          // 3. Jeśli stolik jest WOLNY i NIE jest zaznaczony
-          // Najpierw usuń klasę 'selected' ze WSZYSTKICH innych stolików,
-          // aby tylko jeden mógł być zaznaczony naraz.
           for (let otherTable of thisBooking.dom.tables) {
             otherTable.classList.remove(classNames.booking.tableSelected);
           }
-          
-          // Następnie zaznacz kliknięty stolik (dodaj klasę 'selected')
           table.classList.add(classNames.booking.tableSelected);
-          thisBooking.selectedTable = tableId; // Zapisz ID wybranego stolika
-          console.log(`Stolik ${tableId} zaznaczony.`); // Debugging
+          thisBooking.selectedTable = tableId;
+          console.log(`Stolik ${tableId} zaznaczony.`);
         }
       });
     }
   }
 
-  // Metoda do obsługi wysyłania formularza
   initActions() {
     const thisBooking = this;
 
@@ -220,16 +219,26 @@ class Booking {
 
     const url = settings.db.url + '/' + settings.db.bookings;
 
-    // Sprawdzenie, czy stolik został wybrany przed wysłaniem rezerwacji
-    if (thisBooking.selectedTable === null) { // Sprawdzamy, czy wybrano stolik
+    if (thisBooking.selectedTable === null) {
       alert('Proszę wybrać stolik przed wysłaniem rezerwacji.');
-      return; // Zakończ funkcję, jeśli stolik nie jest wybrany
+      return;
     }
+
+    // === KLUCZOWA ZMIANA: Pobieramy starters TUTAJ, tuż przed ich użyciem ===
+    // W momencie wywołania sendBooking, mamy pewność, że formularz i jego elementy
+    // (w tym checkboxy) są już w pełni załadowane w DOM.
+    thisBooking.dom.starters = thisBooking.dom.wrapper.querySelectorAll(select.booking.starters);
+
+    console.log('--- Rozpoczynam diagnostykę starters w sendBooking ---');
+    console.log('thisBooking.dom.starters (pobrane w sendBooking):', thisBooking.dom.starters);
+    console.log('Typ thisBooking.dom.starters:', typeof thisBooking.dom.starters);
+    console.log('Liczba checkboxów znalezionych:', thisBooking.dom.starters.length);
+    // === KONIEC DEBUGOWANIA sendBooking ===
 
     const payload = {
       date: thisBooking.datePicker.value,
       hour: thisBooking.hourPicker.value,
-      table: thisBooking.selectedTable, // Używa wybranego stolika
+      table: thisBooking.selectedTable,
       duration: thisBooking.hoursAmountWidget.value,
       ppl: thisBooking.peopleAmountWidget.value,
       starters: [],
@@ -237,25 +246,42 @@ class Booking {
       address: thisBooking.dom.address.value,
     };
 
+    // Uzupełnianie tablicy 'starters' na podstawie zaznaczonych checkboxów
     for (let starter of thisBooking.dom.starters) {
+      console.log('Przetwarzany starter element:', starter);
+      console.log('Starter checked status:', starter.checked);
+      console.log('Starter value:', starter.value);
+
       if (starter.checked) {
         payload.starters.push(starter.value);
       }
     }
 
+    console.log('Ostateczna tablica starters w payload:', payload.starters);
+    console.log('Payload do wysłania:', payload);
+    console.log('--- Koniec diagnostyki starters w sendBooking ---');
+
+
     const options = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(payload),
     };
 
     fetch(url, options)
-      .then((response) => response.json())
-      .then((parsedResponse) => {
-        // Po udanej rezerwacji, oznaczamy stolik jako zajęty w aplikacji
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(parsedResponse => {
+        console.log('Rezerwacja wysłana pomyślnie:', parsedResponse);
         thisBooking.makeBooked(payload.date, payload.hour, payload.duration, payload.table);
-        thisBooking.updateDOM(); // Wywołaj updateDOM, aby wizualnie zaktualizować status stolików
-        console.log('Rezerwacja wysłana pomyślnie:', parsedResponse); // Debugging
+        thisBooking.updateDOM();
+        alert('Rezerwacja została wysłana pomyślnie!');
       })
       .catch(error => {
         console.error('Błąd podczas wysyłania rezerwacji:', error);
