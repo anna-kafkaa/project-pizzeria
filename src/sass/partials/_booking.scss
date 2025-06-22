@@ -171,8 +171,21 @@
           background: $color-dark;
           opacity: 0.4;
         }
-  
+         
       }
+        &.selected {
+        background-color: #28a745; /* Zielony kolor */
+        border: 2px solid #218838; /* Ciemniejsza ramka */
+        opacity: 0.9;
+        cursor: pointer;
+        color: #fff; /* Biały tekst dla lepszego kontrastu */
+
+        &::after {
+            content: ''; // Upewnij się, że nie ma żadnego overlayu, który by przeszkadzał
+            background: none;
+            opacity: 0;
+        }
+    }
     }
   
     [data-table="1"] {
