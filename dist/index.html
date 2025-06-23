@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Pizzeria</title>
     <link
       href="https://fonts.googleapis.com/css?family=Lato:400,300i,700%7COswald:300,500,700&amp;subset=latin-ext"
       rel="stylesheet"
-    />
+    >
     <link
       href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
       rel="stylesheet"
-    />
+    >
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
-    />
+    >
     <link
       rel="stylesheet"
       href="vendor/rangeSlider-0.4.11/dist/range-slider.min.css"
-    />
+    >
     <link
       rel="stylesheet"
       href="https://unpkg.com/flickity@2/dist/flickity.min.css"
-    />
-    <link rel="stylesheet" href="css/style.css" />
+    >
+    <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
     <header class="header">
@@ -78,12 +78,11 @@
                   </li>
                 </ul>
                 <div class="cart__order-confirmation">
-                  <input type="tel" name="phone" placeholder="Your phone" />
+                  <input type="tel" name="phone" placeholder="Your phone">
                   <input
                     type="text"
                     name="address"
-                    placeholder="Your address"
-                  />
+                    placeholder="Your address">
                   <button type="submit" class="btn-secondary">Order</button>
                 </div>
               </form>
@@ -136,47 +135,109 @@
           data-flickity='{ "wrapAround": true, "autoPlay": 3000, "cellAlign": "center", "contain": true, "pageDots": true }'
         >
           <div class="carousel-cell">
-            <img src="images/assets/pizza-1.jpg" alt="Pizza" />
-            <div class="carousel-caption">
-              <h3>Best Service</h3>
-              <p>Lorem ipsum Lorem ipsum Lorem ipsum Lorem</p>
-              <p class="carousel-author">– Kaslik Amanow</p>
-            </div>
-          </div>
-          <div class="carousel-cell">
-            <img src="images/assets/pizza-2.jpg" alt="Pizza" />
-            <div class="carousel-caption">
-              <h3>Delicious Food</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              <p class="carousel-author">– Mark</p>
-            </div>
-          </div>
-          <div class="carousel-cell">
-            <img src="images/assets/pizza-3.jpg" alt="Pizza" />
-            <div class="carousel-caption">
-              <h3>Perfect Atmosphere</h3>
-              <p>Great vibe and service, will come again.</p>
-              <p class="carousel-author">– Julia</p>
-            </div>
-          </div>
-          <div class="carousel-cell">
-            <img src="images/assets/pizza-4.jpg" alt="Pizza" />
-            <div class="carousel-caption">
-              <h3>Highly Recommend</h3>
-              <p>Najlepsza pizza w mieście, jak we Włoszech.</p>
-              <p class="carousel-author">– Anna</p>
-            </div>
-          </div>
-        </div>
+  <div class="carousel-cell__inner">
+    <img src="images/assets/pizza-3.jpg" alt="Pizza" />
+    <div class="carousel-caption">
+      <h3>Best Service</h3>
+      <p>Lorem ipsum Lorem ipsum Lorem ipsum Lorem</p>
+      <p class="carousel-author">– Kaslik Amanow</p>
+    </div>
+  </div>
+</div>
 
-        <div class="home__gallery container">
-          <img src="images/assets/pizza-1.jpg" alt="Pizza" />
-          <img src="images/assets/pizza-2.jpg" alt="Pizza" />
-          <img src="images/assets/pizza-3.jpg" alt="Pizza" />
-          <img src="images/assets/pizza-4.jpg" alt="Pizza" />
-        </div>
+        <div class="carousel-cell">
+  <div class="carousel-cell__inner">
+    <img src="images/assets/pizza-3.jpg" alt="Pizza" />
+    <div class="carousel-caption">
+      <h3>Delicious Food</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <p class="carousel-author">– Mark</p>
+    </div>
+  </div>
+</div>
+
+
+         <div class="carousel-cell">
+  <div class="carousel-cell__inner">
+    <img src="images/assets/pizza-3.jpg" alt="Pizza" />
+    <div class="carousel-caption">
+      <h3>Perfect Atmosphere</h3>
+      <p>Great vibe and service, will come again.</p>
+      <p class="carousel-author">– Julia</p>
+    </div>
+  </div>
+</div>
+
+
+          <div class="carousel-cell">
+  <div class="carousel-cell__inner">
+    <img src="images/assets/pizza-3.jpg" alt="Pizza" />
+    <div class="carousel-caption">
+      <h3>Highly Recommend</h3>
+      <p>Najlepsza pizza w mieście, jak we Włoszech.</p>
+      <p class="carousel-author">– Anna</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!--  TU DODANA GALERIA -->
+<div class="home__gallery">
+  <!-- GALLERY -->
+<div class="home__gallery container">
+  <div class="gallery-row">
+    <div class="gallery-item">
+      <img src="images/assets/pizza-1.jpg" alt="Pizza 1" />
+      <div class="gallery-overlay">
+        <i class="fas fa-heart"></i>
+        <i class="fas fa-share-alt"></i>
       </div>
+    </div>
+    <div class="gallery-item">
+      <img src="images/assets/pizza-2.jpg" alt="Pizza 2" />
+      <div class="gallery-overlay">
+        <i class="fas fa-heart"></i>
+        <i class="fas fa-share-alt"></i>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <img src="images/assets/pizza-3.jpg" alt="Pizza 3" />
+      <div class="gallery-overlay">
+        <i class="fas fa-heart"></i>
+        <i class="fas fa-share-alt"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="gallery-row">
+    <div class="gallery-item">
+      <img src="images/assets/pizza-4.jpg" alt="Pizza 4" />
+      <div class="gallery-overlay">
+        <i class="fas fa-heart"></i>
+        <i class="fas fa-share-alt"></i>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <img src="images/assets/pizza-5.jpg" alt="Pizza 5" />
+      <div class="gallery-overlay">
+        <i class="fas fa-heart"></i>
+        <i class="fas fa-share-alt"></i>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <img src="images/assets/pizza-6.jpg" alt="Pizza 6" />
+      <div class="gallery-overlay">
+        <i class="fas fa-heart"></i>
+        <i class="fas fa-share-alt"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
     </script>
+
 
     <script id="template-cart-product" type="text/x-handlebars-template">
       <li>

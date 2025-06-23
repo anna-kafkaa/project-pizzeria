@@ -1,4 +1,5 @@
 import { settings, select, classNames } from "./settings.js";
+import Home from './components/Home.js';
 import Product from "./components/Product.js";
 import Cart from "./components/Cart.js";
 import Booking from './components/Booking.js';
@@ -94,10 +95,17 @@ const app = {
     });
   },
 
+   initHome: function () {
+    const thisApp = this;
+    const homeContainer = document.querySelector(select.containerOf.home);
+    thisApp.home = new Home(homeContainer);
+  },
+
   init: function () {
     const thisApp = this;
 
     thisApp.initPages();
+    thisApp.initHome();
     thisApp.initData();
     thisApp.initCart();
     thisApp.initBooking();
