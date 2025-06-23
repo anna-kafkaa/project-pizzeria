@@ -1,5 +1,6 @@
 // components/Home.js
-import { select, templates } from '../settings.js';
+/* global Flickity */
+import { templates } from '../settings.js';
 
 class Home {
   constructor(element) {

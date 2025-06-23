@@ -109,25 +109,6 @@
   }
 }
 
-.home__gallery {
-  margin-top: 40px;
-  padding: 0 20px;
-
-  display: flex;
-  justify-content: center;
-
-  img {
-    width: 150px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin: 0 10px;
-    transition: transform 0.3s ease;
-    cursor: pointer;
-
-   
-  }
-}
 
 .carousel-cell__inner {
   display: flex;
@@ -234,4 +215,11 @@
   }
 }
 
+#pages > section {
+  display: none;
+
+  &.active {
+    display: block;
+  }
+}
 
