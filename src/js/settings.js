@@ -51,6 +51,7 @@ export const select = {
     phone: '[name="phone"]',
     address: '[name="address"]',
     starters: '[name="starter"]', 
+    tablesById: '.floor-plan .table[data-table="',
     form: '.booking-form',
   },
 

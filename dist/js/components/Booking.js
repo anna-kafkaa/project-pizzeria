@@ -270,6 +270,9 @@ class Booking {
       body: JSON.stringify(payload),
     };
 
+    console.log('Startery przed wysłaniem:', payload.starters);
+
+
     fetch(url, options)
       .then(response => {
         if (!response.ok) {

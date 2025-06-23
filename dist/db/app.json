@@ -202,11 +202,11 @@
       }
     }
   ],
-  "orders": [], 
-    "events": [
+  "orders": [],
+  "events": [
     {
       "id": 1,
-      "date": "2025-06-22",
+      "date": "2025-06-23",
       "hour": "12:30",
       "table": 1,
       "repeat": false,
@@ -222,7 +222,10 @@
       "repeat": "daily",
       "duration": 2,
       "ppl": 3,
-      "starters": ["bread", "lemonWater"]
+      "starters": [
+        "bread",
+        "lemonWater"
+      ]
     },
     {
       "id": 3,
@@ -232,7 +235,10 @@
       "repeat": "daily",
       "duration": 2,
       "ppl": 3,
-      "starters": ["bread", "lemonWater"]
+      "starters": [
+        "bread",
+        "lemonWater"
+      ]
     },
     {
       "id": 4,
@@ -252,9 +258,37 @@
       "repeat": "daily",
       "duration": 2,
       "ppl": 3,
-      "starters": ["lemonWater"]
+      "starters": [
+        "lemonWater"
+      ]
     }
   ],
-  "bookings": []
+  "bookings": [
+    {
+      "date": "2025-06-23",
+      "hour": "12:00",
+      "table": 2,
+      "duration": 1,
+      "ppl": 1,
+      "starters": [
+        "water"
+      ],
+      "phone": "",
+      "address": "",
+      "id": 1
+    },
+    {
+      "date": "2025-06-23",
+      "hour": "12:00",
+      "table": 1,
+      "duration": 1,
+      "ppl": 1,
+      "starters": [
+        "bread"
+      ],
+      "phone": "",
+      "address": "",
+      "id": 2
+    }
+  ]
 }
-
